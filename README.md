@@ -1,3 +1,5 @@
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://stand-with-ukraine.pp.ua)
+
 # brickbeam
 
 ![Build](https://github.com/azachar/brickbeam/actions/workflows/ci.yaml/badge.svg)
