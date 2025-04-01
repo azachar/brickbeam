@@ -1,0 +1,98 @@
+name: Cargo Build & Test
+
+on:
+  push:
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+  LLVM_SYS_170_PREFIX: "/usr/lib/llvm-17"
+
+jobs:
+  rustfmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+          components: rustfmt
+      - name: Check formatting
+        run: cargo fmt -- --check
+
+  clippy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+          components: clippy
+      - name: Run Clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+  test_lib:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        toolchain: [stable, beta, nightly]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: ${{ matrix.toolchain }}
+      - name: Install LLVM & deps
+        run: |
+          sudo apt update
+          sudo apt install -y llvm-17-dev llvm-17-tools libffi-dev
+      - name: Build Library
+        run: cargo build --no-default-features --verbose --lib
+      - name: Run Library Tests
+        run: cargo test --no-default-features --verbose --lib
+
+  test_examples:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        toolchain: [stable, beta, nightly]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: ${{ matrix.toolchain }}
+      - name: Install LLVM & deps
+        run: |
+          sudo apt update
+          sudo apt install -y llvm-17-dev llvm-17-tools libffi-dev
+      - name: Build Examples
+        run: cargo build --no-default-features --verbose --examples
+      - name: Run Example Tests
+        run: cargo test --no-default-features --verbose --examples
+
+  test_doc:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        toolchain: [stable, beta, nightly]
+    continue-on-error: ${{ matrix.toolchain == 'nightly' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: ${{ matrix.toolchain }}
+      - name: Install LLVM & deps
+        run: |
+          sudo apt update
+          sudo apt install -y llvm-17-dev llvm-17-tools libffi-dev
+      - name: Run Doc Tests
+        run: cargo test --doc --no-default-features --verbose
+
+  doc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+      - name: Build Docs
+        run: cargo doc --no-deps --verbose
