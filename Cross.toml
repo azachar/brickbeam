@@ -1,0 +1,22 @@
+[build]
+
+default-target = "x86_64-unknown-linux-gnu"
+pre-build = [
+    # Add the aarch64 architecture
+    "dpkg --add-architecture $CROSS_DEB_ARCH",
+
+    # Install prerequisites for adding new repositories
+    "apt-get update && apt-get install -y wget gnupg software-properties-common",
+
+    # Add LLVM's official GPG key
+    "wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -",
+
+    # Add the LLVM apt repository for the desired version (17 in this case)
+    "add-apt-repository \"deb [arch=$CROSS_DEB_ARCH] http://apt.llvm.org/focal/ llvm-toolchain-focal-17 main\"",
+
+    # Update package lists to include the new LLVM repository
+    "apt-get update",
+
+    # Install LLVM-17 development packages for aarch64
+    "apt-get install -y llvm-17-dev llvm-17-tools libffi-dev",
+]

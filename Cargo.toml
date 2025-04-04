@@ -1,0 +1,30 @@
+[package]
+name = "brickbeam"
+version = "0.1.0"
+authors = ["Andrej Zachar <andrej@chocolatejar.eu>"]
+description = "Community driven Infra Red Transmitter implementation of the LEGO® Power Functions (LPF) protocol powered by the modern Linux, written in Rust."
+keywords = [
+    "LEGO Power Functions",
+    "LPF RC protocol",
+    "infra-red",
+    "motor",
+    "raspberry pi",
+]
+categories = ["science::robotics", "os::linux-apis", "embedded"]
+repository = "https://github.com/azachar/brickbeam"
+readme = "README.md"
+license = "MIT"
+edition = "2021"
+rust-version = "1.85"
+
+[dependencies]
+cir = { version = "0.1.3", optional = true }
+irp = "0.3.3"
+thiserror = "2.0.11"
+
+[dev-dependencies]
+figlet-rs = "0.1.5"
+
+[features]
+default = ["cir"]
+cir = ["dep:cir"]
