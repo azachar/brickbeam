@@ -3,6 +3,7 @@
 # brickbeam
 
 ![Build](https://github.com/azachar/brickbeam/actions/workflows/ci.yaml/badge.svg)
+[![codecov](https://codecov.io/gh/azachar/brickbeam/graph/badge.svg?token=5PGBVDINXD)](https://codecov.io/gh/azachar/brickbeam)
 
 **brickbeam** is an open source Rust library designed to let you build your very own Infra Red LEGO® remote controllers with minimal fuss. With brickbeam, you can create easy-to-use remote control applications for projects like a LEGO® train—bringing your imagination to life without getting bogged down in low-level technical details.
 
