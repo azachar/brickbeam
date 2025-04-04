@@ -8,12 +8,15 @@ env:
   CARGO_TERM_COLOR: always
   LLVM_SYS_170_PREFIX: "/usr/lib/llvm-17"
 
+permissions:
+  contents: read
+
 jobs:
   rustfmt:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - uses: actions/checkout@e3d2460bbb42d7710191569f88069044cfb9d8cf #v4.2.2
+      - uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4 #v1
         with:
           toolchain: stable
           components: rustfmt
@@ -23,8 +26,8 @@ jobs:
   clippy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - uses: actions/checkout@e3d2460bbb42d7710191569f88069044cfb9d8cf #v4.2.2
+      - uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4 #v1
         with:
           toolchain: stable
           components: clippy
@@ -37,8 +40,8 @@ jobs:
       matrix:
         toolchain: [stable, beta, nightly]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - uses: actions/checkout@e3d2460bbb42d7710191569f88069044cfb9d8cf #v4.2.2
+      - uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4 #v1
         with:
           toolchain: ${{ matrix.toolchain }}
       - name: Install LLVM & deps
@@ -56,8 +59,8 @@ jobs:
       matrix:
         toolchain: [stable, beta, nightly]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - uses: actions/checkout@e3d2460bbb42d7710191569f88069044cfb9d8cf #v4.2.2
+      - uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4 #v1
         with:
           toolchain: ${{ matrix.toolchain }}
       - name: Install LLVM & deps
@@ -76,8 +79,8 @@ jobs:
         toolchain: [stable, beta, nightly]
     continue-on-error: ${{ matrix.toolchain == 'nightly' }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - uses: actions/checkout@e3d2460bbb42d7710191569f88069044cfb9d8cf #v4.2.2
+      - uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4 #v1
         with:
           toolchain: ${{ matrix.toolchain }}
       - name: Install LLVM & deps
@@ -90,8 +93,8 @@ jobs:
   doc:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - uses: actions/checkout@e3d2460bbb42d7710191569f88069044cfb9d8cf #v4.2.2
+      - uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4 #v1
         with:
           toolchain: stable
       - name: Build Docs

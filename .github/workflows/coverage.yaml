@@ -5,20 +5,23 @@ on:
     branches: ['**']
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   coverage:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@e3d2460bbb42d7710191569f88069044cfb9d8cf #v4.2.2
 
       - name: Install CIR/LLVM dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y llvm-17-dev llvm-17-tools libffi-dev
 
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - uses: actions-rust-lang/setup-rust-toolchain@9399c7bb15d4c7d47b27263d024f0a4978346ba4 #v1
         with:
           toolchain: nightly
 
@@ -29,7 +32,7 @@ jobs:
         run: cargo tarpaulin --verbose --no-default-features --workspace --timeout 120 --out Xml
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@0565863a31f2c772f9f0395002a31e3f06189574 #v5.4.0
         with:
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
